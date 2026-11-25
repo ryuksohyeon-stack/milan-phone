@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>밀란 바실리치의 휴대전화</title>
+<style>
+:root{--ac:#3d6a8c;--bg:#eef1f4;--cd:#fff;--tx:#1d252d;--sb:#6b7783;--ln:#dde2e7;--rd:#c0392b}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;background:#12161a;font-family:-apple-system,'Apple SD Gothic Neo','Malgun Gothic',Roboto,sans-serif;color:var(--tx)}
+#phone{position:relative;height:100vh;height:100dvh;max-width:430px;margin:0 auto;overflow:hidden;background:var(--bg)}
+button,[data-act]{cursor:pointer;touch-action:manipulation;-webkit-user-select:none;user-select:none}
+button{border:0;background:none;font:inherit;color:inherit}
+[data-act]:active{transform:scale(.96);opacity:.8}
+#status{position:absolute;top:0;left:0;right:0;height:30px;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 14px;font-size:13px;font-weight:600;color:#fff;background:linear-gradient(#0008,#0000);pointer-events:none}
+#status .l,#status .r{display:flex;gap:6px;align-items:center}
+#status .ic{font-size:10px;opacity:.9}
+.bat{display:inline-block;width:24px;height:11px;border:1.5px solid #fff;border-radius:3px;position:relative}
+.bat i{position:absolute;left:1px;top:1px;bottom:1px;width:23%;background:#ff6b5e;border-radius:1px}
+#nav{position:absolute;bottom:0;left:0;right:0;height:50px;z-index:100;display:flex;justify-content:space-around;align-items:center;background:#0d1114;color:#fff}
+#nav button{width:33%;height:50px;min-width:44px;font-size:20px}
+.screen{position:absolute;top:0;bottom:50px;left:0;right:0;background:var(--bg);transform:translateX(100%);visibility:hidden;pointer-events:none;transition:transform .26s ease,visibility 0s .26s;overflow:hidden}
+.screen.behind{transform:translateX(-18%);visibility:visible;transition:transform .26s ease}
+.screen.active{transform:none;visibility:visible;pointer-events:auto;transition:transform .26s ease,visibility 0s}
+#s-home{background:linear-gradient(165deg,#a3adb8 0%,#65717d 50%,#2b333b 100%)}
+#s-home::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 78% 20%,#fff3 0,#0000 35%),radial-gradient(circle at 20% 90%,#0006 0,#0000 50%);pointer-events:none}
+.hd{position:absolute;top:30px;left:0;right:0;height:50px;display:flex;align-items:center;gap:4px;padding:0 6px;background:var(--cd);border-bottom:1px solid var(--ln);z-index:2}
+.hd .b{width:44px;height:44px;font-size:30px;color:var(--ac)}
+.hd h1{font-size:18px;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hd .ex{font-size:12px;color:var(--sb);padding-right:8px}
+.bd{position:absolute;top:80px;bottom:0;left:0;right:0;overflow-y:auto;padding:10px;-webkit-overflow-scrolling:touch}
+.screen:not(#s-home)::before{content:"";position:absolute;top:0;left:0;right:0;height:30px;background:#0d1114}
+.card{background:var(--cd);border-radius:14px;padding:12px;margin-bottom:10px;font-size:14px;line-height:1.5;word-break:break-word}
+.card h3{font-size:14px;color:var(--ac);margin-bottom:4px}
+.sm{font-size:12px;color:var(--sb);line-height:1.45}
+.row{display:flex;align-items:center;gap:10px;min-height:56px;padding:8px 12px;background:var(--cd);border-bottom:1px solid var(--ln);width:100%;text-align:left}
+.rows{border-radius:14px;overflow:hidden;margin-bottom:10px}
+.row .av{width:40px;height:40px;border-radius:50%;background:#dfe6ec;display:flex;align-items:center;justify-content:center;font-size:20px;flex:none}
+.row .m{flex:1;min-width:0}.row .m b{display:block;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row .m span{display:block;font-size:12.5px;color:var(--sb);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.row .r{font-size:12px;color:var(--sb);text-align:right;flex:none;max-width:35%}
+.bg{background:var(--ac);color:#fff;border-radius:10px;padding:1px 7px;font-size:12px;margin-left:4px}
+.bgm{background:#9aa5b0}
+.sec{font-size:12px;color:var(--sb);margin:10px 4px 6px;font-weight:700}
+/* home */
+.pages{position:absolute;top:34px;bottom:118px;left:0;right:0;overflow:hidden}
+.pg{position:absolute;inset:0;padding:8px 14px;transform:translateX(100%);transition:transform .25s;visibility:hidden;pointer-events:none}
+.pg.on{transform:none;visibility:visible;pointer-events:auto}.pg.off{transform:translateX(-100%)}
+.wd{background:#ffffffd9;border-radius:20px;padding:14px;margin-bottom:14px;display:block;width:100%;text-align:left;color:var(--tx)}
+.wd .t{font-size:13px;color:var(--sb)}.wd .big{font-size:36px;font-weight:300}.wd .s{font-size:13px;line-height:1.4}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px 4px}
+.ap{display:flex;flex-direction:column;align-items:center;gap:4px;color:#fff;font-size:11.5px;text-shadow:0 1px 3px #000a;min-height:44px;background:none;width:100%}
+.ic2{width:54px;height:54px;border-radius:15px;display:flex;align-items:center;justify-content:center;font-size:27px;position:relative;box-shadow:0 2px 6px #0005}
+.ic2 .nb{position:absolute;top:-5px;right:-5px;background:#e04b3a;color:#fff;border-radius:10px;font-size:11px;padding:1px 6px;text-shadow:none}
+.fold{background:#ffffff40;flex-wrap:wrap;display:flex;gap:3px;padding:6px;justify-content:center;align-content:center}
+.fold i{font-style:normal;font-size:15px;width:20px;height:20px;text-align:center}
+.dots{position:absolute;bottom:128px;left:0;right:0;display:flex;justify-content:center;z-index:3}
+.dots button{width:44px;height:30px;display:flex;align-items:center;justify-content:center}
+.dots button::after{content:"";width:8px;height:8px;border-radius:50%;background:#fff6}.dots button.on::after{background:#fff}
+.dock{position:absolute;bottom:8px;left:10px;right:10px;height:82px;background:#ffffff38;border-radius:28px;display:grid;grid-template-columns:repeat(5,1fr);align-items:center;justify-items:center;z-index:3}
+.dock .ap{font-size:0}
+/* chat */
+.msgs{display:flex;flex-direction:column;gap:5px;padding-bottom:70px}
+.bub{max-width:82%;padding:8px 11px;border-radius:16px;font-size:14.5px;line-height:1.4;word-break:break-word}
+.bub small{display:block;font-size:12px;opacity:.75;margin-top:2px}
+.bub .tm{font-size:10.5px;opacity:.6;margin-top:2px;display:block}
+.bub.m{align-self:flex-end;background:var(--ac);color:#fff;border-bottom-right-radius:4px}
+.bub.o{align-self:flex-start;background:#fff;border-bottom-left-radius:4px}
+.bub .nm{font-size:11.5px;font-weight:700;color:var(--ac);display:block}
+.dt{align-self:center;background:#cfd6dd;border-radius:10px;padding:3px 12px;font-size:12px;color:#44505b;margin:8px 0 2px}
+.nt{align-self:center;background:#fff8d6;border-radius:10px;padding:6px 10px;font-size:12px;color:#5b5120;max-width:90%;text-align:center;line-height:1.4}
+.inp{position:absolute;left:0;right:0;bottom:0;height:56px;background:#fff;border-top:1px solid var(--ln);display:flex;align-items:center;gap:8px;padding:6px 10px;z-index:3}
+.inp .f{flex:1;height:40px;border-radius:20px;background:var(--bg);color:var(--sb);display:flex;align-items:center;padding:0 14px;font-size:14px}
+.inp .sd{width:44px;height:44px;border-radius:50%;background:var(--ac);color:#fff;font-size:18px}
+/* gallery */
+.ghd{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;border-radius:12px;overflow:hidden;margin-bottom:10px}
+.ph{aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:30px;color:#fff;position:relative;min-height:44px}
+.ph small{position:absolute;bottom:3px;left:4px;font-size:10px;text-shadow:0 1px 2px #000}.ph .st{position:absolute;top:3px;right:4px;font-size:12px}
+.big-ph{aspect-ratio:1;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:90px;margin-bottom:10px}
+/* misc */
+.tg{width:50px;height:30px;border-radius:15px;background:#b8c1ca;position:relative;flex:none;transition:.2s}
+.tg::after{content:"";position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:#fff;transition:.2s}
+.tg.on{background:var(--ac)}.tg.on::after{left:23px}
+.row.off .m b{color:#98a2ac}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;background:var(--cd);border-radius:14px;padding:8px;margin-bottom:10px}
+.cal .h{text-align:center;font-size:11px;color:var(--sb);padding:4px 0}
+.cal button{min-height:44px;border-radius:10px;font-size:14px;position:relative}
+.cal button.ev::after{content:"";position:absolute;bottom:5px;left:50%;margin-left:-3px;width:6px;height:6px;border-radius:50%;background:var(--ac)}
+.cal button.red{background:#f6d4d0;color:var(--rd);font-weight:700}.cal button.td{background:var(--ac);color:#fff}
+.bar{height:10px;border-radius:5px;background:#dde2e7;overflow:hidden;margin:6px 0}.bar i{display:block;height:100%;background:var(--ac)}
+.prog{height:5px;background:#dde2e7;border-radius:3px;overflow:hidden;margin:10px 0 4px}.prog i{display:block;height:100%;width:94%;background:var(--ac)}
+.pb{width:56px;height:56px;border-radius:50%;background:var(--ac);color:#fff;font-size:22px;display:block;margin:6px auto}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 16px;border-radius:12px;background:var(--ac);color:#fff;font-size:14px;margin-top:8px}
+#toast{position:absolute;left:14px;right:14px;bottom:66px;z-index:200;background:#12181dee;color:#fff;border-radius:14px;padding:12px 14px;font-size:13.5px;line-height:1.45;opacity:0;transform:translateY(10px);transition:.22s;pointer-events:none}
+#toast.on{opacity:1;transform:none}
+s{color:#8a949e}
+@media (max-width:360px){.grid{gap:10px 2px}.ic2{width:48px;height:48px;font-size:24px}.ap{font-size:10.5px}}
+</style>
+</head>
+<body>
+<div id="phone">
+  <div id="status"><div class="l"><span id="clock">07:52</span><span class="ic">📨 💬 🎵 📰</span></div><div class="r"><span>LTE ▂▄▆</span><span>23%</span><span class="bat"><i></i></span></div></div>
+
+  <section class="screen active" id="s-home">
+    <div class="pages">
+      <div class="pg on" id="pg0">
+        <button class="wd" data-act="open:weather"><div class="t">Яндекс Погода · 12월 4일 금요일</div><div class="big">−31°C</div><div class="s">카예르칸 −31°C, 눈보라 주의보<br>일출: 없음</div></button>
+        <div class="grid" id="g0"></div>
+      </div>
+      <div class="pg" id="pg1"><div class="grid" id="g1"></div></div>
+    </div>
+    <div class="dots"><button class="on" data-act="page:0" aria-label="첫 페이지"></button><button data-act="page:1" aria-label="두 번째 페이지"></button></div>
+    <div class="dock" id="dock"></div>
+  </section>
+
+  <nav id="nav"><button data-act="back" aria-label="뒤로">◀</button><button data-act="home" aria-label="홈">●</button><button data-act="recent" aria-label="최근 앱">■</button></nav>
+  <div id="toast"></div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var $ = function (s) { return document.querySelector(s); };
+  var esc = function (s) { return String(s).replace(/[&<>"]/g, function (c) { return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); };
+  var fmt = function (s) { return esc(s).replace(/~~(.+?)~~/g, '<s>$1</s>').replace(/\n/g, '<br>'); };
+
+  /* ---------- DATA ---------- */
+  var APPS = {
+    vk:['💙','VK (ВКонтакте)','#2787f5','하루 10회 이상 사용. 알림 <b>12개</b>. 친구 신청 3건 무시 중.'],
+    wa:['💬','WhatsApp','#25a866','가족 전용. 아빠, 유리랑만 쓴다.<br><button class="btn" data-act="chat:3">아빠(Батя) 대화 열기</button>'],
+    gis:['🗺️','2ГИС','#4caf50','주 3~4회 사용. 오프라인 지도 노릴스크 다운로드 완료. 극야에 길 잃으면 진짜 죽는다는 동료 말 듣고 받았다.<br><br>스크린샷에 <b>레닌스키 대로 24번지</b> 위치 화면이 남아 있다. 북마크: «Автосервис Карман» 페이지(리뷰 4.6점).'],
+    sber:['🟢','Сбербанк Онлайн','#21a038','월급 통장. 잔액 확인을 하루 2번씩 한다. 확인할 때마다 표정이 조금씩 어두워진다.'],
+    tink:['🟡','Тинькофф','#f5c400','친구 레하가 «캐시백 개쩐다»고 해서 만들었다. 캐시백이 얼마 쌓였는지 한 번도 안 봤다.'],
+    gos:['🏛️','Госуслуги','#1f5fa8','정부 민원 앱. 군 전역 서류 떼려고 깔았다. 이후 열어본 적 없음.'],
+    deliv:['🛵','Delivery Club','#2fb86a','노릴스크에선 배달 되는 가게가 몇 개 없어서 반쯤 장식용.<br>최근 주문: «샤우르마 24시» 더블 샤우르마 2개 + 감자튀김 (12월 2일 오후 6시 41분).'],
+    magnit:['🧲','Магнит','#e2231a','마트 포인트 적립 앱. 포인트 <b>1,847점</b>. 쓸 줄 모른다.'],
+    pyat:['🛒','Пятёрочка','#e63329','모스크바 시절 깔아놓은 앱. 노릴스크엔 매장이 없어서 무용지물인데 안 지웠다.'],
+    sf2:['🔫','Standoff 2','#444c55','러시아 국민 모바일 FPS. 랭크 «골드 2». 친구들한텐 «레전드 찍었었다»고 한다. 찍은 적 없다.'],
+    durak:['🃏','Дурак Онлайн','#7b4a9c','두라크 카드게임. 전적 <b>1,204승 1,389패</b>. 패가 더 많은데 «운빨 게임이라서»라고 우긴다.'],
+    clash:['👑','Clash Royale','#2a6fd1','군대 시절 미친 듯이 했다. 지금은 클랜에서 강퇴당한 상태.'],
+    tuna:['🎸','GuitarTuna','#e8833a','기타 튜닝 앱. 이게 제일 자주 쓰는 «음악 앱»이다.'],
+    ug:['🎼','Ultimate Guitar','#f0b400','코드 악보. 즐겨찾기(전부 «쉬움» 난이도):<br>• Кино – «Группа крови»<br>• Joy Division – «Love Will Tear Us Apart»<br>• Молчат Дома – «Судно»<br>• The Cure – «Boys Don\'t Cry»'],
+    shz:['🔍','Shazam','#1a8cff','술집에서 나오는 노래 찾으려고 깔았다. 최근 기록 중 하나가 «Белые розы» (Ласковый май)인데, 술 취해서 찾은 거라 본인도 기억 없다.'],
+    norn:['🏭','Норникель — Мой портал','#4a5a68','사내 직원 포털. 근무 일정, 급여 명세.<br>현재 상태: <b>«휴가 중 (12.01~12.20)»</b>'],
+    go:['🚕','Яндекс Go','#f4c20d','택시. 술 마신 날 전용. 노릴스크 택시는 영하 40도에서 기본요금이 오른다.'],
+    avito:['🏷️','Avito','#00a0e4','중고거래. 검색 기록:<br>• «라다 2107 겨울 타이어 스파이크»<br>• «전기기타 펜더 중고 노릴스크» (결과 0건)<br>• «몽키스패너 대형»'],
+    insta:['📷','Instagram','#c13584','팔로워 312명, 게시물 9개. 마지막 게시물은 8월, 노릴스크 백야 아래서 찍은 하역장 크레인 사진. 캡션: «ебашим» (존나 일한다).'],
+    tiktok:['🎶','TikTok','#111','깔았다 지웠다를 3번 반복했다. 지금은 깔려 있다.'],
+    yt:['▶️','YouTube','#e62117','최근 시청:<br>• 〈라다 2107 겨울 시동 안 걸릴 때 해결법〉<br>• 〈5분 보르시 레시피〉<br>• 〈몽키스패너 사용법 — 초보자용〉(이건 왜 봤는지 모른다)<br>• 〈Молчат Дома — Live in Minsk〉']
+  };
+  var FOLD = {
+    money:['돈 (Деньги)',['sber','tink','gos'],'💰'],
+    eat:['쳐먹기 (Пожрать)',['deliv','magnit','pyat'],'🍴'],
+    play:['놀자 (Игры)',['sf2','durak','clash'],'🎮'],
+    gtr:['기타',['tuna','ug','shz'],'🎸'],
+    work:['일 (Работа)',['norn','go','avito'],'🔧']
+  };
+  var P0 = [['open:gallery','🖼️','갤러리','#6d7f90'],['open:notes','📝','메모장','#e0b53a'],['open:calendar','📅','캘린더','#d85a4a'],['open:alarm','⏰','알람','#2f3a44'],
+            ['open:browser','🌐','브라우저','#e0463a'],['app:wa','💬','WhatsApp','#25a866'],['app:gis','🗺️','2ГИС','#4caf50'],['open:cart','🛍️','Ozon','#1c63e8'],
+            ['open:settings','⚙️','설정','#7a8691'],['open:notif','🔔','알림','#b0583e'],['open:contacts','👤','연락처','#4f7f9f'],['open:rec','🎙️','녹음','#8f4a5a']];
+  var DOCK = [['open:calls','📞','전화','#35a853'],['open:chats','✈️','Telegram','#2a9fd6'],['app:vk','💙','VK','#2787f5'],['open:music','🎵','Музыка','#f2c500'],['open:gallery','📸','카메라','#4a5560']];
+
+  var CH = [
+    {n:'Посник 🔧',av:'🔧',pin:1,un:0,last:'어제 오후 10:03 · 💤',msgs:[
+'D|11월 30일','m|오후 9:06|Это я. Сохрани.|나다. 저장해.','o|오후 9:14|누구세요? 😐|','m|오후 9:14|Ты шутишь, блядь? Пять минут назад виделись.|장난하냐 씨발? 5분 전에 봤잖아.','o|오후 9:15|아 😑 그 술집 키 큰 사람|','m|오후 9:15|Милан. Запомни уже.|밀란. 좀 외워라.','o|오후 9:20|밀란 🙂 저장함|',
+'D|12월 1일','m|오전 7:58|Встала?|일어났냐?','m|오전 8:03|Посник.|포스닉.','m|오전 8:09|Я уже под домом стою, тут минус тридцать два, блядь|나 이미 집 앞이다, 여기 영하 32도야 씨발','o|오전 8:16|🏃‍♀️💨|','m|오후 1:12|📷 [사진: 샤우르마 봉투를 든 손. 배경은 카르만 정비소 휴게실 문]  Жрать иди. Остынет.|밥 먹으러 와. 식는다.','o|오후 1:13|손 지금 오일 범벅 🖐️🛢️|','o|오후 1:13|10분|','m|오후 1:14|Ага.|어.','o|오후 9:40|오늘 저녁 맛있었어 🍖|','m|오후 9:41|Ну ещё бы. Я место выбирал.|당연하지. 내가 고른 데니까.','o|오후 9:41|🙄|',
+'D|12월 2일','o|오후 12:20|투서 진짜 다 보냈어? 😳|','m|오후 12:21|Всё. Аудит, прокуратура, газета. Пусть сука поплавает.|다. 감사실, 검찰, 신문사. 그 새끼 좀 허우적거려 보라지.','o|오후 12:22|👍👍👍|','o|오후 12:22|브라우니 남은 거 먹을래? 🍫|','m|오후 12:22|Неси.|갖고 와.','m|오후 9:29|Фотки, если что, мне кидай. Только мне.|사진 같은 거 있으면 나한테 보내. 나한테만.','o|오후 9:31|📷 [사진: 이불 밖으로 삐져나온 양말 신은 발 두 개]|','m|오후 9:31|Это чё нахуй|이게 뭐야 씨발','o|오후 9:31|사진 🙂|','m|오후 9:32|📞 음성 통화 · 7시간 48분|',
+'D|12월 3일','m|오후 12:26|Я вернулся. Пирог с вишней взял.|나 왔다. 체리 파이 사 왔어.','m|오후 1:40|Посник.|포스닉.','m|오후 2:55|Ты реально будешь молчать?|진짜 계속 말 안 할 거냐?','m|오후 3:47|Ладно.|알았다.','m|오후 4:30|🎤 음성 메시지 0:03 — 재생 안 됨 (발신 후 2초 만에 삭제 시도 → 실패)|(내용: 긴 한숨 소리와 «아 씨발…» 한 마디)','m|오후 5:02|Пирог в холодильнике. Ешь, если что.|파이 냉장고에 넣어놨다. 먹고 싶으면 먹어.','o|오후 5:49|다 끝났어|','m|오후 5:49|Иду.|간다.','o|오후 10:03|📷 [사진: 밀란이 침대에 엎드려 자는 뒷모습, 뒷머리가 까치집]|','m|오후 10:03|Удали.|지워.','o|오후 10:03|싫은데 😼|','m|오후 10:04|Я сейчас встану.|나 지금 일어난다.','o|오후 10:04|💤|','N|(이후 메시지 없음. 같은 방에 있었으므로.)',
+'N|📊 이모지 통계 — 포스닉이 보낸 이모지 84개(사흘간) / 밀란이 보낸 이모지 0개. 밀란이 이모지 버튼을 눌렀다가 아무것도 안 보내고 닫은 횟수는 아무도 모른다. 최근 사용 이모지 1순위 🙄는 눌렀다 지운 흔적이다.']},
+    {n:'🍺 СМОКИ ЛЕГЕНДЫ 🍺',av:'🍺',pin:0,un:31,last:'레하: 밀란 이 새끼 여자 생겼다 내가 장담함 🤡🤡🤡',msgs:[
+'N|멤버: 밀란, 툐마, 레하, 고샤, 디마, 사냐','o|툐마|밀란 이번 주 왜 연락 안 됨 뒤졌냐|','o|레하|30일에 바에서 웬 빨간 머리 여자 옆에 가서 앉는 거 봄 👀|','o|고샤|ㄹㅇ? 사진 없냐|','o|레하|밀란 이 새끼 여자 생겼다 내가 장담함 🤡🤡🤡|','o|디마|걔 여자 생기면 단톡방부터 조용해짐 원래|','o|레하|@밀란 대답해라 씹지 말고|','m|12월 3일 오후 11:52|Отъебитесь. Занят.|꺼져. 바쁘다.','o|레하|인정했네 🤣🤣🤣🤣|','o|툐마|바쁘대 ㅋㅋㅋㅋㅋㅋㅋ 휴가 중인 놈이|','N|(이후 31개 메시지 안 읽음)']},
+    {n:'Юрка 🪖',av:'🪖',pin:0,un:0,last:'유리: 형 밥은 챙겨 먹지?',msgs:[
+'D|11월 28일','o|유리|형 나 휴대폰 주 1회 허용됨. 일요일에만 연락 가능해|','m|밀란|Понял. Не выёбывайся там перед сержантами.|알았다. 거기서 하사들 앞에서 나대지 마라.','o|유리|형이나 거기서 사고치지 마|','o|유리|그리고 형 밥은 챙겨 먹지?|','N|✏️ 저장된 임시 메시지(작성 중단): ~~Да, жру нормально. Тут одна~~  — 뭔가 쓰다가 지웠다. 무엇을 쓰려다 만 건지는 일요일에 정해질 것 같다.']},
+    {n:'Батя 🚬 (WhatsApp)',av:'🚬',pin:0,un:1,last:'📷 신문 기사 스크랩 사진',msgs:[
+'N|마지막 메시지: 신문 기사 스크랩 사진 1장 — 〈노릴스크 극야 시작, 주민 건강 주의보〉. 설명 없음. (안 읽음 1)']},
+    {n:'Склад 3 — Смена Б 📦',av:'📦',pin:0,un:15,mute:1,last:'페트로비치 반장: 휴가자들 복귀일 확인하고 답장해라',msgs:[
+'N|3번 창고 B조 · 🔕 음소거 · 안 읽음 15','o|Петрович Бригадир|휴가자들 복귀일 확인하고 답장해라|']},
+    {n:'Вадим Карман 🐻',av:'🐻',pin:0,un:0,last:'(표시할 메시지 없음)',msgs:['N|안 읽음 0. 정비소 사장 바딤과의 대화창.']}
+  ];
+
+  var CALLS = [
+    ['12/3 오후 9:58','📤','Посник 🔧','0:04','짧다. «어디냐»만 물었다. 바로 옆방에 있었다.'],
+    ['12/3 오후 5:51','📥','Вадим Карман 🐻','2:17','바딤 사장. 리카 퇴근 시간 확인.'],
+    ['12/3 오전 10:14','📤','Вадим Карман 🐻','1:03','아르카디 건으로 짧게 통화.'],
+    ['12/2 오후 9:32','📤','Посник 🔧','7:48:16','밤새 통화. 중간에 둘 다 잠들어서 숨소리만 2시간 넘게 이어졌다.'],
+    ['12/2 오후 3:20','❌','Лёха','부재중','레하. «스모키 가자»였을 게 뻔해서 안 받았다.'],
+    ['12/2 오후 3:21','❌','Лёха','부재중','또.'],
+    ['12/2 오후 3:24','❌','Лёха','부재중','세 번째.'],
+    ['12/1 오후 8:07','📥','Батя 🚬','0:42','아빠. «잘 사냐.» «어.» «추우냐.» «어.» «그래.» 끝.'],
+    ['12/1 오전 8:17','📤','Посник 🔧','0:19','«집 앞이다, 나와.»'],
+    ['11/30 오후 9:05','📤','Посник 🔧','0:11','번호 따고 처음 건 전화. 진짜 번호인지 확인용.'],
+    ['11/30 오후 7:40','📥','Тёма Смоки','0:33','친구 툐마. «8시에 스모키, 늦지 마.»'],
+    ['11/28','📥','Юрка 🪖','12:44','유리. 신병 훈련소에서 처음 허락받은 통화.']
+  ];
+
+  var PH = [
+    ['12/3 오후 6:31','🚗','공터의 라다와 김 서린 창문','공터에 세운 라다 옆, 김 서린 창문 사진. 흔들렸다. 왜 찍었는지 본인만 안다.',0,'#5d6b78,#2f3a44'],
+    ['12/3 오후 12:24','🥧','빵집 진열장','레닌스키 대로 빵집 진열장의 베리 파이와 체리 파이. 둘 중 뭘 살지 몰라서 찍었다. 결국 둘 다 샀다.',0,'#b9855a,#6b3f27'],
+    ['12/2 오후 6:45','🌯','«샤우르마 24시» 테이블','샤우르마 두 개, 그중 하나를 쥔 오일 묻은 가느다란 손이 프레임 끝에 걸려 있다. 손만 나왔다.',1,'#c99a4b,#6f4a1d'],
+    ['12/2 오후 12:08','🖥️','인터넷 카페 모니터 화면','이메일 «보낸 편지함» 목록. 수신자: 감사실, 검찰청, 〈Заполярный вестник〉 편집부. 증거용으로 찍어뒀다.',0,'#6f8499,#33424f'],
+    ['12/1 오후 6:52','🍲','식당 창가','앞에 앉은 사람의 심홍색 머리카락 끝과 목도리가 흐릿하게 찍혔다. 초점은 수프 그릇에 맞았다. 다시 찍기 쪽팔려서 그냥 뒀다.',1,'#a8483f,#4d1d22'],
+    ['12/1 오전 8:20','🚪','아파트 현관 앞','레닌 대로 아파트 현관 앞. 아무도 없는 문. 기다리다 심심해서 찍었다.',0,'#7f8b96,#3a444d'],
+    ['11/30 오후 8:58','💡','공터의 가로등','카예르칸 아파트 단지 공터, 가로등 하나. 이유 없이 찍었다. 403호 창문이 4층에 작게 보인다.',0,'#394a63,#10161f']
+  ];
+  var AL = [
+    ['ТАЧКА (내 차)','47장','라다 2107의 역사. 중고로 산 날 찍은 녹슨 범퍼 사진부터, 스파이크 타이어 갈아 끼운 날, 눈에 반쯤 파묻힌 날, 시동 안 걸려서 화가 나서 찍은 계기판 사진까지. 사진 속 차는 매번 같은 각도다. 본인은 «기록용»이라고 한다.'],
+    ['ХУЙНЯ (잡것)','203장','무엇이든 들어간다. 하역장에서 터진 비료 포대, 식당 메뉴판, 웃긴 간판, 영하 51도 찍힌 온도계, 동료 그리고리가 지게차에서 졸고 있는 사진, 스모키 화장실 낙서(«Здесь был Цой»), 레하가 취해서 눈밭에 대자로 누운 사진.'],
+    ['МОСКВА','89장','노릴스크 오기 전 찍은 것들. 소콜리나야 고라 아파트 6층 창밖 풍경, 리체이 429번 정문, 아빠가 베란다에서 담배 피우는 뒷모습(몰래 찍은 것), 유리 입대 전날 같이 먹은 펠메니, 그리고 엄마가 보낸 생일카드 사진 2장(2019, 2020년). 카드 원본은 버렸는데 사진은 안 지웠다.']
+  ];
+  var VID = [
+    ['기타 연습 녹음 41개','제목 없이 날짜로만 저장. 대부분 〈Группа крови〉 인트로를 치다가 틀리고 «блядь»로 끝난다. 평균 길이 0:47.'],
+    ['9월 18일 — «смоки др Лёхи»','스모키, 레하 생일. 4분 12초. 테이블 위로 올라간 레하가 넘어지는 장면이 하이라이트. 단톡방 협박용으로 보관 중.'],
+    ['8월 2일 — 백야','백야의 새벽 3시, 하역장 크레인 뒤로 지지 않는 해. 1분 3초. 촬영자의 목소리: «Это пиздец, солнце не садится вообще» (미쳤다, 해가 아예 안 져). 이제 그 해는 45일 동안 아예 안 뜬다.']
+  ];
+  var SHOT = [
+    ['얀덱스 날씨 (12월 1일)','«Полярная ночь началась. Следующий восход — 13 января» (극야 시작. 다음 일출 — 1월 13일). 이 스크린샷을 왜 저장했는지 묻는다면 대답을 못 할 것이다.'],
+    ['스베르뱅크 잔액 (11월 25일)','휴가 직전 화면. 꽤 넉넉하다. 자랑용이었다.'],
+    ['2ГИС 경로','<b>레닌스키 대로 24번지</b> 위치 화면. 아무 표시 없이 그냥 캡처만 했다.'],
+    ['차량 번호판 검색 결과','흐릿하게 자른 상태의 일부 화면.'],
+    ['Ultimate Guitar 코드표','〈Love Will Tear Us Apart〉 코드표.']
+  ];
+
+  var NOTES = [
+    ['하지 말 것','12월 4일 오전 3:11','- 난간 기대지 말 것\n- 공사장 옆길로 다니지 말 것 (철근)\n- 아파트 계단 얼음 → 무조건 손잡이\n- 처마 밑에 서 있지 말 것 (고드름)\n- 혼자 있지 말 것\n- 고기 작게 썰어 먹을 것 ← 이거 진짜 중요\n- 포스닉 혼자 내려보내지 말 것\n- ~~스테이크~~','누가 보면 겨울철 안전 수칙을 모아둔 줄 안다. 마지막 줄에 그어진 취소선이 제일 세게 그어져 있다.'],
+    ['ХУЙЛО','12월 2일','아르카디 벨로프\n시청 도시계획과\n레닌스키 대로 24\n검은 벤츠, 번호 124\n낙타색 코트 / 첼시부츠 (굽 높음, 키 작은 거 숨기는 거 확실)\n감사실 ✅ 검찰 ✅ 신문사 ✅\n→ 다음: ???\n→ 바딤한테 정비소 CCTV 각도 물어볼 것','«키 작은 거 숨기는 거 확실»은 메모에 굳이 쓸 필요가 없는 내용이다.'],
+    ['장보기','','감자, 양파, 양배추, 달걀 30구, 버터, 식빵, 소고기(스튜용), 홍차, 설탕\n파이 (베리)\n고무매트 욕실용?\n포스닉 양말 (두꺼운 거)',''],
+    ['곡 쓸거','10월 작성, 이후 수정 없음','Аm – F – C – G\n가사: «полярная ночь / и я никто» (극야 / 그리고 난 아무것도 아니야)','너무 진지하게 써서 다시 열어보기 창피해진 메모.'],
+    ['(제목 없음)','12월 3일 오후 11:58','링 사이즈 → 자는 동안 실로 재볼 것','아직 실을 못 구했다.']
+  ];
+
+  var QRY = [
+    ['верейная пирог ленинский проспект норильск','레닌스키 대로 노릴스크 파이 빵집'],
+    ['как перестать материться','욕 안 하는 법 — 페이지 열고 3초 만에 닫음'],
+    ['чиновник мэрия норильск белов','노릴스크 시청 공무원 벨로프'],
+    ['куда жаловаться на взятки чиновника анонимно','공무원 뇌물 익명 제보 방법'],
+    ['прокуратура красноярский край электронная приёмная','크라스노야르스크 주 검찰청 온라인 민원'],
+    ['как понять что девушка обиделась','여자가 삐졌는지 아는 법'],
+    ['девушка молчит 5 часов что делать','여자친구가 5시간째 말을 안 할 때'],
+    ['приём Геймлиха как делать самому себе','하임리히법 혼자 하는 방법 — 어젯밤 새벽 3시 14분 검색'],
+    ['полярная ночь норильск легенда','노릴스크 극야 민담'],
+    ['умер в первый день без солнца','태양 없는 첫날 죽은 사람 — 결과: 관련 없는 블로그 글 3개'],
+    ['кольца платина норильск цена','노릴스크 백금 반지 가격'],
+    ['ювелирный золото норильск часы работы','노릴스크 «졸로토» 보석방 영업시간'],
+    ['сколько стоит открыть автосервис','정비소 차리는 비용'],
+    ['лада 2107 не заводится минус 40','라다 2107 영하 40도 시동 안 걸림']
+  ];
+  var BM = [['Норникель — портал сотрудника',''],['Яндекс Погода — Кайеркан',''],['Ultimate Guitar',''],['«Автосервис Карман» — 2ГИС','리뷰 4.6점. 리뷰 중 하나: «정비사 빨간 머리 아가씨 일 잘함. 근데 말 안 걸면 무섭다.» — 밀란은 이 리뷰에 «싫어요»를 눌렀다. 이유는 모른다.']];
+  var TABS = ['〈Заполярный вестник〉 지역 뉴스 메인 (새로고침 대기 중)','노릴스크 시청 도시계획과 직원 명단 페이지','펠메니 레시피 블로그','〈Молчат Дома〉 위키 페이지','«카예르칸 창고 임대» Avito 검색 결과','하임리히법 그림 설명 페이지 (아직 안 닫음)','VK 게시물 (언제 열었는지 모름)','VK 게시물 (언제 열었는지 모름)','VK 게시물 (언제 열었는지 모름)'];
+
+  var RECENT = ['Молчат Дома – «Судно»','Кино – «Кукушка»','The Cure – «Lovesong» ← 12월 3일 하루 6회','Joy Division – «Love Will Tear Us Apart»','Ploho – «Куда идут люди»','Буерак – «Друзья по несчастью»','Interpol – «Evil»','Кино – «Звезда по имени Солнце» ← 12월 1일. 제목 보고 틀었다가 1분 만에 넘겼다. 해 얘기 듣기 싫어서.','Ласковый май – «Белые розы» ← 이 곡이 왜 또 있는지 본인도 모른다.'];
+  var PLS = [['🎸','ГАРАЖ (차고)','82곡. 운전용. 포스트펑크, 러시아 락. 볼륨 최대 전제.'],['🏋️','СКЛАД (창고)','54곡. 하역장 근무용. 템포 빠른 것 위주.'],['🌑','ночь (밤)','23곡. 10월에 만든 우울 모음집. 공개 설정은 «비공개».'],['🔧','(이름 없음)','4곡. 12월 2일 생성. «Lovesong», «Кукушка», «Boys Don\'t Cry», «Пачка сигарет». 네 번째 곡은 담배 노래라 넣을까 말까 고민하다 넣었다. 표지 사진은 기본 회색 그대로.']];
+
+  var ALM = [['05:40','смена (근무)',0,'휴가 중. 하역장 출근용. 끄기만 하고 안 지웠다.'],['07:30','(이름 없음)',1,'오늘 아침 리카를 깨운 범인.'],['07:35','ВСТАВАЙ НАХУЙ (일어나 씨발)',1,'첫 알람 끄고 다시 자는 습관 때문에 만든 2차 알람.'],['07:40','ПОСНИК ВСТАЛА? (포스닉 일어났냐?)',1,'12월 3일 밤에 새로 추가. 자기 기상용이 아니다.'],['11:55','жрать (밥)',1,'원래 없던 알람. 12월 1일에 추가. 정비소에 도시락 사 가는 시간.'],['17:45','Карман',1,'리카 퇴근 15분 전.'],['03:00','Белые ночи',0,'8월 백야 촬영하려고 만든 알람. 이제 쓸 일이 없다.']];
+  var CART = [
+    ['접이식 스파이크 신발 아이젠 (여성용 S/M)','890₽','12/1','결제 대기. 사이즈를 몰라서 멈춤.'],
+    ['차량용 휴대폰 거치대 (환풍구형)','450₽','11/2','한 달째 방치.'],
+    ['기타 줄 Ernie Ball 10-46','790₽','10/14','6번 줄 끊어진 지 두 달.'],
+    ['무선 이어폰 (수량 2)','2,990₽','12/2','2개 담음. 이유는 묻지 마라.'],
+    ['핸드크림 (건성용, 무향)','320₽','12/3','정비소 휴게실에서 갈라진 손등 보고 담았다. «무향»은 일부러 고른 거다.'],
+    ['대형 몽키스패너 (300mm, 크롬바나듐)','1,150₽','12/2','노릴스크 배송 14일 소요 안내에 «씨발 그 안에 일 다 터진다»며 그냥 철물점 갔다. 장바구니엔 남아 있다.'],
+    ['소화기 차량용 1kg','640₽','12/3','장바구니에 담은 채 안 뺐다.']
+  ];
+
+  var CAL = {4:'8:00 출발. 카르만 / 저녁 403 — 짝수 날 규칙 때문에 적어뒀는데, 오늘이 4일이라 맞다.',6:'«유리 전화 (일요일)» 🔔 알림 설정됨',13:'«Юрка ☎️» — 매주 일요일 반복 일정',20:'«Отпуск всё. Блядь.» (휴가 끝. 씨발.)',27:'«Юрка ☎️» — 매주 일요일 반복 일정',31:'빈칸. 근데 날짜 칸이 빨간색으로 칠해져 있다. 언제 칠했는지 모른다.'};
+
+  var NOTIF = [
+    ['Telegram · 🍺 СМОКИ ЛЕГЕНДЫ 🍺','방금','레하: 사진 내놔 안 내놓으면 오늘 밤 403호 찾아감 ㅋㅋㅋ'],
+    ['Telegram · 🍺 СМОКИ ЛЕГЕНДЫ 🍺','방금','툐마: 403호가 뭔데'],
+    ['Telegram · 🍺 СМОКИ ЛЕГЕНДЫ 🍺','방금','레하: 몰라 지어냄 🤡'],
+    ['🌨 Яндекс Погода','7:30','카예르칸 −31°C. 강풍 경보 18m/s. 낙하물 주의.'],
+    ['📰 Заполярный вестник','7:15','[속보] 시청 도시계획과 공무원 대상 내부 감사 착수… 익명 제보 접수'],
+    ['🔋 배터리 부족','7:48','배터리가 23% 남았습니다. 충전기를 연결하세요.'],
+    ['💾 저장공간 부족','3주 전','저장공간이 거의 가득 찼습니다.']
+  ];
+
+  var SET = [
+    ['📱 기종','샤오미 Redmi Note 8 Pro, 미네랄 그레이. 2019년 겨울 노릴스크로 오기 직전 모스크바 «엠비디오»에서 할부로 샀다. 할부는 노릴스크 첫 월급으로 한 방에 갚았고, 직장 동료들한테 «난 할부 같은 거 안 해»라고 허세를 부린다.'],
+    ['🛡️ 케이스','검은색 군용 스타일 범퍼 케이스. 모서리가 하역장 철제 선반에 찍혀서 고무가 하얗게 일어났다. 카메라 옆에 «노르니켈 안전제일» 스티커가 반쯤 뜯긴 채 붙어 있다. 레하가 장난으로 붙였는데 떼기 귀찮아서 그냥 뒀다.'],
+    ['💔 액정','왼쪽 하단 모서리에 거미줄 같은 금이 5cm쯤. 9월에 술 마시고 스모키 앞 보도블록에 떨어뜨린 흔적. 보호필름은 떼어버렸다. 금 간 자리에 엄지가 자주 걸려서 키보드 왼쪽 아래 «я» 자리를 오타 내는 일이 잦다.'],
+    ['🔒 잠금화면 / 배경화면','잠금화면: 조이 디비전 〈Unknown Pleasures〉 앨범 커버. 친구들은 «심전도냐?»라고 물었고 밀란은 «무식한 새끼들»이라고 답했다. 펄서 전파 신호라는 건 자기도 나중에 위키피디아에서 알았다.<br><br>배경화면: 11월 초부터 회색 라다 2107 측면 사진. 각도가 묘하게 «내 차 멋있지» 각도라 볼 때마다 조금 민망하다. 바꿀까 고민 중이고, 무엇으로 바꿀지는 아직 아무한테도 말 안 했다.'],
+    ['🔋 배터리','<b>23%</b>. 밤새 충전기에 안 꽂고 잤다. 영하 30도 밖에 10분만 있어도 10%씩 녹아내려서 패딩 안주머니에 넣고 다닌다. 절약 모드는 «느려져서 짜증 나»서 켜 본 적 없다.<div class="bar"><i style="width:23%;background:#e0584a"></i></div>'],
+    ['💾 저장공간','64GB 중 <b>58.7GB</b> 사용. 경고 알림이 3주째 떠 있는데 매번 «나중에». 범인은 텔레그램 캐시 11GB와 지우지 않은 기타 연습 녹음 파일들.<div class="bar"><i style="width:92%"></i></div>'],
+    ['🔔 알림 설정','거의 전부 켜져 있다. 예외적으로 «아빠» 연락처 알림만 진동. 소리가 울리면 괜히 심장이 철렁해서.'],
+    ['🧭 사용 습관','화면 밝기는 항상 최대. 다크모드는 안 쓴다. 멀티태스킹 창에 앱이 40개쯤. 비밀번호는 패턴 잠금, 모양은 «Z». 리체이 시절부터 바꾼 적 없다.'],
+    ['🌱 디지털 웰빙','지난주 일 평균 6시간 41분 → 이번 주 <b>4시간 12분</b> (37% 감소). «좋은 습관» 배지가 떴고 밀란은 «뭐래 씨발»이라고 중얼거렸다.'],
+    ['🚫 차단 목록','1명. 이름 없는 번호. 12월 1일 차단. 메모 «ХУЙЛО»에 적힌 사무실 직통 번호와 끝 4자리가 같지만 밀란은 누구 번호인지 모르는 척한다.'],
+    ['⌨️ 키보드','최근 이모지: 🙄 / 👍 / 🤡 / 🔧 / 💀 (🙄는 보낸 적 없음, 💀는 너무 정확해서 안 보냄)<br>자동완성 상위: блядь / ща / норм / Посник / жрать (Посник 4위, Лика 23위)<br>클립보드 마지막 복사: <code>Ленинский проспект, 24</code>'],
+    ['🔌 충전 포트','정비소 휴게실 소파에서 묻어온 듯한 흑갈색 구리스 얼룩 한 점. 밀란 손이 아니다.']
+  ];
+
+  var CONT = [
+    ['🔧','Посник','리카. 처음엔 «Лика»로 저장했다가 하루 만에 성으로 바꿨다. 렌치 이모지는 본인이 붙였다는 걸 인정하지 않는다.'],
+    ['🚬','Батя','아빠. 담배 이모지는 원망 반, 습관 반. 알림은 진동.'],
+    ['🪖','Юрка','남동생 유리. 군대 간 뒤에 철모 이모지 추가.'],
+    ['👤','Мама','이모지 없음. 통화 기록 최근 1년 내 0건.'],
+    ['🐻','Вадим Карман','정비소 사장. 처음 본 순간부터 곰이었다.'],
+    ['🐍','ХУЙЛО НА МЕРСЕ','아르카디 벨로프. 통화 기록 없음. 저장만 해 놓고 혹시 전화 오면 받자마자 욕할 준비 중.'],
+    ['🍺','Тёма Смоки / Лёха / Гоша Склад / Петрович Бригадир','스모키 친구들, 하역장 동료들, 반장.'],
+    ['💍','Ювелирный Золото','졸로토 보석방. 12월 3일 오후 11:59 저장. 메모 «링 사이즈»를 쓴 바로 다음 1분 사이.']
+  ];
+
+  /* ---------- BUILD HOME ---------- */
+  function apBtn(a) {
+    return '<button class="ap" data-act="' + a[0] + '"><span class="ic2" style="background:' + a[3] + '">' + a[1] + (a[2] === 'Telegram' ? '<span class="nb">47</span>' : '') + (a[2] === 'VK' ? '<span class="nb">12</span>' : '') + '</span>' + (a[4] === 'nolabel' ? '' : esc(a[2])) + '</button>';
+  }
+  function foldBtn(k) {
+    var f = FOLD[k];
+    return '<button class="ap" data-act="folder:' + k + '"><span class="ic2 fold">' + f[1].map(function (x) { return '<i>' + APPS[x][0] + '</i>'; }).join('') + '</span>' + esc(f[0].split(' ')[0]) + '</button>';
+  }
+  $('#g0').innerHTML = P0.map(apBtn).join('');
+  $('#g1').innerHTML = Object.keys(FOLD).map(foldBtn).join('') + ['insta', 'tiktok', 'yt'].map(function (k) { return apBtn(['app:' + k, APPS[k][0], APPS[k][1].split(' ')[0], APPS[k][2]]); }).join('');
+  $('#dock').innerHTML = DOCK.map(function (d) { return apBtn([d[0], d[1], d[2], d[3], 'nolabel']); }).join('');
+
+  /* ---------- BUILD SCREENS ---------- */
+  var SCR = [['chats', '텔레그램'], ['chat', ''], ['calls', '전화'], ['gallery', '갤러리'], ['detail', ''], ['notes', '메모장'], ['browser', '얀덱스 브라우저'], ['music', 'Яндекс Музыка'], ['alarm', '알람'], ['cart', 'Ozon 장바구니'], ['calendar', '캘린더'], ['settings', '설정 · 기기 정보'], ['notif', '알림'], ['folder', ''], ['contacts', '연락처'], ['rec', '녹음']];
+  var ph = $('#phone'), nav = $('#nav');
+  SCR.forEach(function (s) {
+    var el = document.createElement('section');
+    el.className = 'screen'; el.id = 's-' + s[0];
+    el.innerHTML = '<div class="hd"><button class="b" data-act="back" aria-label="뒤로">‹</button><h1 id="t-' + s[0] + '">' + esc(s[1]) + '</h1><span class="ex" id="x-' + s[0] + '"></span></div><div class="bd" id="b-' + s[0] + '"></div>';
+    ph.insertBefore(el, nav);
+  });
+  function B(id, html) { var e = $('#b-' + id); if (e) { e.innerHTML = html; e.scrollTop = 0; } }
+  function T(id, t, x) { var e = $('#t-' + id), y = $('#x-' + id); if (e) e.textContent = t; if (y) y.textContent = x || ''; }
+  function row(act, av, main, sub, right, cls) {
+    return '<button class="row ' + (cls || '') + '" data-act="' + act + '"><span class="av">' + av + '</span><span class="m"><b>' + main + '</b><span>' + sub + '</span></span><span class="r">' + (right || '') + '</span></button>';
+  }
+  function toastAttr(t) { return 'toast" data-t="' + esc(t); }
+
+  /* chats list */
+  B('chats', '<div class="card"><h3>내 프로필</h3>안전모 쓴 상반신 사진(하역장 컨테이너 앞, 선글라스 — 백야 시즌).<br>상태메시지: <b>«не звони мне до обеда»</b> (점심 전에 전화하지 마)<div class="sm">지금은 휴가 중이라 오후에도 안 받는다.</div></div><div class="rows">' +
+    CH.map(function (c, i) {
+      return row('chat:' + i, c.av, esc(c.n) + (c.pin ? ' 📌' : '') + (c.mute ? ' 🔕' : ''), esc(c.last), c.un ? '<span class="bg' + (c.mute ? ' bgm' : '') + '">' + c.un + '</span>' : '');
+    }).join('') + '</div>');
+
+  function renderChat(i) {
+    var c = CH[i]; if (!c) return;
+    T('chat', c.n);
+    var h = '<div class="msgs">';
+    c.msgs.forEach(function (ln) {
+      var p = ln.split('|'), k = p[0];
+      if (k === 'D') h += '<div class="dt">' + esc(p[1]) + '</div>';
+      else if (k === 'N') h += '<div class="nt">' + fmt(p[1]) + '</div>';
+      else {
+        var cls = k === 'm' ? 'm' : 'o', hasName = (k === 'o' && p[1].indexOf('오') !== 0 && p[1].indexOf(':') < 0 && p[1].length < 40 && p[2] && !/^(오전|오후)/.test(p[1])) || (k === 'm' && !/^(오전|오후|12월)/.test(p[1]));
+        var meta = '<span class="tm">' + esc(p[1]) + '</span>';
+        if (k === 'o' && /^(오전|오후)/.test(p[1])) { h += '<div class="bub o">' + esc(p[2]) + (p[3] ? '<small>' + esc(p[3]) + '</small>' : '') + meta + '</div>'; }
+        else if (k === 'o') { h += '<div class="bub o"><span class="nm">' + esc(p[1]) + '</span>' + esc(p[2]) + (p[3] ? '<small>' + esc(p[3]) + '</small>' : '') + '</div>'; }
+        else { h += '<div class="bub m">' + esc(p[2]) + (p[3] ? '<small>' + esc(p[3]) + '</small>' : '') + (/^(오전|오후|12월)/.test(p[1]) ? meta : '') + '</div>'; }
+      }
+    });
+    h += '</div><div class="inp"><div class="f" data-act="' + toastAttr('남의 휴대폰이다. 메시지는 읽기만 가능하다.') + '">메시지 입력…</div><button class="sd" data-act="' + toastAttr('남의 휴대폰이다. 메시지는 읽기만 가능하다.') + '">➤</button></div>';
+    B('chat', h);
+    var bd = $('#b-chat'); if (bd) bd.style.bottom = '0';
+  }
+
+  /* calls */
+  B('calls', '<div class="rows">' + CALLS.map(function (c, i) {
+    return row(toastAttr(c[4]), c[1], esc(c[2]), esc(c[0]), esc(c[3]), c[1] === '❌' ? 'red' : '');
+  }).join('') + '</div><div class="card"><h3>메모</h3>Мама — 최근 1년 내 통화 기록 0건. 저장명 해설은 연락처 앱에 있다.<br><button class="btn" data-act="open:contacts">연락처 열기</button></div>');
+
+  /* gallery */
+  function grad(g) { var a = g.split(','); return 'background:linear-gradient(145deg,' + a[0] + ',' + a[1] + ')'; }
+  B('gallery', '<div class="card"><b>사진 2,341장 / 동영상 118개</b><div class="sm">앨범 정리는 사실상 안 함. 기본 앨범(카메라·스크린샷·텔레그램·VK) 외에 직접 만든 앨범은 3개.</div></div>' +
+    '<div class="sec">직접 만든 앨범</div><div class="rows">' + AL.map(function (a, i) { return row('alb:' + i, '📁', esc(a[0]), esc(a[1]), '›'); }).join('') + '</div>' +
+    '<div class="sec">최근 사진 (최신순)</div><div class="ghd">' + PH.map(function (p, i) { return '<button class="ph" data-act="ph:' + i + '" style="' + grad(p[5]) + '">' + p[1] + '<small>' + esc(p[0]) + '</small>' + (p[4] ? '<span class="st">⭐</span>' : '') + '</button>'; }).join('') + '</div>' +
+    '<div class="card sm">⚠️ 11월 28일 유리 통화 스크린샷 이후, 바로 30일 밤 가로등 사진으로 넘어간다. 그 사이에 «분명 찍었던 것 같은» 사진들 — 보석방 진열장, 안전모 쓴 리카와 찍은 셀카, 과자 집, 전나무 트리 — 은 어디에도 없다. 갤러리를 3번 새로고침했고 클라우드 백업까지 뒤졌다. 그 뒤로는 11월 30일 이전으로 잘 스크롤하지 않는다.</div>' +
+    '<div class="sec">동영상</div><div class="rows">' + VID.map(function (v, i) { return row('vid:' + i, '🎞️', esc(v[0]), '', '›'); }).join('') + '</div>' +
+    '<div class="sec">스크린샷</div><div class="rows">' + SHOT.map(function (v, i) { return row('shot:' + i, '📱', esc(v[0]), '', '›'); }).join('') + '</div>');
+
+  /* notes */
+  B('notes', '<div class="rows">' + NOTES.map(function (n, i) { return row('note:' + i, '📝', esc(n[0]), esc(n[1] || '메모'), '›'); }).join('') + '</div><div class="sm" style="padding:0 6px">Google Keep</div>');
+
+  /* browser */
+  B('browser', '<div class="sec">최근 검색어 (최신순)</div><div class="rows">' + QRY.map(function (q, i) { return row(toastAttr(q[1]), '🔎', esc(q[0]), esc(q[1]), ''); }).join('') + '</div>' +
+    '<div class="sec">북마크</div><div class="rows">' + BM.map(function (b) { return row(toastAttr(b[1] || '북마크한 페이지'), '📌', esc(b[0]), esc(b[1].slice(0, 28)), ''); }).join('') + '</div>' +
+    '<div class="sec">열려 있는 탭 9개</div><div class="rows">' + TABS.map(function (t) { return row(toastAttr(t), '🗂️', esc(t), '', ''); }).join('') + '</div>');
+
+  /* music */
+  B('music', '<div class="card" style="text-align:center"><div style="font-size:48px">🌑</div><b>Молчат Дома – «Судно (Борис Рыжий)»</b><div class="sm">어젯밤 욕실 가기 전에 멈췄다. 9초만 들으면 끝나는데 아직 안 들었다.</div><div class="prog"><i id="mp"></i></div><div class="sm" id="mt">2:21 / 2:30 · 일시정지</div><button class="pb" id="pbtn" data-act="play">▶</button></div>' +
+    '<div class="sec">최근 재생 (최신순)</div><div class="rows">' + RECENT.map(function (r, i) { return row(toastAttr(r), '🎵', esc(r.split(' ←')[0]), esc(r.indexOf('←') > 0 ? r.split('← ')[1] : ''), ''); }).join('') + '</div>' +
+    '<div class="sec">플레이리스트</div><div class="rows">' + PLS.map(function (p) { return row(toastAttr(p[2]), p[0], esc(p[1]), esc(p[2]), ''); }).join('') + '</div>' +
+    '<div class="card sm">플러스 구독 중, 월 169루블. «좋아요» 1,412곡. «Мой Вайб» 추천에 러시아 발라드가 섞여 나오기 시작해서 매번 «싫어요»를 누르고 있다. «Lovesong»을 6번 돌린 대가다.</div>');
+
+  /* alarm */
+  B('alarm', '<div class="rows">' + ALM.map(function (a, i) {
+    return '<button class="row' + (a[2] ? '' : ' off') + '" id="al' + i + '" data-act="alm:' + i + '"><span class="m"><b style="font-size:26px;font-weight:300">' + a[0] + '</b><span>' + esc(a[1]) + '</span></span><span class="tg' + (a[2] ? ' on' : '') + '"></span></button>';
+  }).join('') + '</div><div class="card sm">알람 소리는 전부 기본음 «Утро (아침)». 바꾸는 법을 모른다. 배우고 싶지도 않다.</div>');
+
+  /* cart */
+  B('cart', '<div class="rows">' + CART.map(function (c, i) {
+    return row('cart:' + i, '🛍️', esc(c[0]), esc(c[2] + ' 담음'), '<b>' + esc(c[1]) + '</b>');
+  }).join('') + '</div><div class="card"><b>합계 7,230₽</b> (+이어폰 1개분)<div class="sm">결제 버튼 바로 위에서 3일째 멈춰 있다. 주인의 결단력 문제다.</div><button class="btn" data-act="' + toastAttr('결제는 주인이 직접 해야 한다. 3일째 망설이는 중.') + '">결제하기</button></div>');
+
+  /* calendar */
+  (function () {
+    var h = '<div class="card" style="margin-bottom:6px"><b>2020년 12월</b></div><div class="cal">' + ['월', '화', '수', '목', '금', '토', '일'].map(function (d) { return '<div class="h">' + d + '</div>'; }).join('');
+    h += '<span></span>';
+    for (var d = 1; d <= 31; d++) {
+      var cls = (CAL[d] ? 'ev ' : '') + (d === 31 ? 'red ' : '') + (d === 4 ? 'td' : '');
+      h += '<button class="' + cls + '" data-act="day:' + d + '">' + d + '</button>';
+    }
+    h += '</div><div class="sec">다른 일정</div><div class="rows">' +
+      row(toastAttr('아직 비어 있다. 검색 기록에 «ресторан норильск забронировать» (노릴스크 레스토랑 예약)가 12월 1일 새벽에 찍혀 있다.'), '📅', '1월 7일 (목)', '아직 비어 있음', '') +
+      row(toastAttr('이것만 적혀 있다. 그 앞뒤 날짜엔 아무것도 없다. 1월 14일 칸에 일정을 추가하려다 그냥 닫은 기록이 3번 남아 있다.'), '☀️', '1월 13일', '☀️', '') +
+      row(toastAttr('«ДР» (생일). 자동 생성. 본인이 지울 줄 몰라서 남아 있다.'), '🎂', '2월 1일', 'ДР (생일)', '') + '</div>';
+    B('calendar', h);
+  })();
+
+  /* settings */
+  B('settings', SET.map(function (s) { return '<div class="card"><h3>' + s[0] + '</h3>' + s[1] + '</div>'; }).join(''));
+
+  /* notif */
+  B('notif', '<div class="sm" style="margin:0 4px 8px">오전 7:52 현재</div>' + NOTIF.map(function (n) { return '<button class="card" style="display:block;width:100%;text-align:left" data-act="' + toastAttr(n[2]) + '"><div class="sm">' + esc(n[0]) + ' · ' + esc(n[1]) + '</div>' + esc(n[2]) + '</button>'; }).join('') +
+    '<div class="card sm">«낙하물 주의» 알림은 매일 아침 뜨는데, 밀란은 이걸 볼 때마다 속으로 같은 욕을 한다. 〈Заполярный вестник〉 속보는 7시 15분에 떴지만 아직 열어보지 않았다.</div>');
+
+  /* contacts */
+  B('contacts', '<div class="rows">' + CONT.map(function (c) { return row(toastAttr(c[2]), c[0], esc(c[1]), esc(c[2]), ''); }).join('') + '</div>');
+
+  /* recorder */
+  B('rec', '<div class="rows">' + row(toastAttr('내용: 밤새 통화하던 중 스피커폰 너머로 들린 숨소리를 녹음 앱이 실수로 따 버린 것… 이라고 본인은 주장한다. 녹음 버튼은 화면 정중앙에 있고, 실수로 누르기 꽤 어렵다.'), '🎙️', 'тест (테스트)', '12월 2일 오후 11:17', '4:06') +
+    row(toastAttr('기타 연습 녹음 파일. 대부분 〈Группа крови〉 인트로를 치다가 틀리고 «блядь»로 끝난다.'), '🎸', '기타 연습 녹음 41개', '날짜로만 저장', '평균 0:47') + '</div>');
+
+  /* ---------- NAVIGATION ---------- */
+  var stack = ['home'];
+  function render() {
+    var top = stack[stack.length - 1];
+    document.querySelectorAll('.screen').forEach(function (el) {
+      var id = el.id.slice(2), i = stack.indexOf(id);
+      el.classList.toggle('active', id === top);
+      el.classList.toggle('behind', i >= 0 && id !== top);
+      el.style.zIndex = i >= 0 ? 10 + i : 1;
+    });
+  }
+  function openScreen(id) {
+    if (!$('#s-' + id)) return;
+    if (stack[stack.length - 1] === id) return;
+    stack = stack.filter(function (x) { return x !== id; });
+    stack.push(id); render();
+  }
+  function goBack() { if (stack.length > 1) { stack.pop(); render(); } else { toast('이미 홈 화면이다.'); } }
+  function goHome() { stack = ['home']; render(); }
+  function setDetail(title, html) { T('detail', title); B('detail', html); }
+  var tt;
+  function toast(t) {
+    var e = $('#toast'); if (!e) return;
+    e.textContent = t; e.classList.add('on');
+    clearTimeout(tt); tt = setTimeout(function () { e.classList.remove('on'); }, 3200);
+  }
+  function setPage(n) {
+    [0, 1].forEach(function (i) {
+      var p = $('#pg' + i); p.classList.toggle('on', i === n); p.classList.toggle('off', i < n);
+    });
+    document.querySelectorAll('.dots button').forEach(function (b, i) { b.classList.toggle('on', i === n); });
+  }
+
+  /* ---------- MUSIC STATE ---------- */
+  var sec = 141, playing = false, mi = null;
+  function mm(s) { return Math.floor(s / 60) + ':' + ('0' + (s % 60)).slice(-2); }
+  function updMusic() {
+    var p = $('#mp'), t = $('#mt'), b = $('#pbtn');
+    if (p) p.style.width = (sec / 150 * 100) + '%';
+    if (t) t.textContent = mm(sec) + ' / 2:30 · ' + (playing ? '재생 중' : (sec >= 150 ? '끝' : '일시정지'));
+    if (b) b.textContent = playing ? '❚❚' : '▶';
+  }
+  function togglePlay() {
+    if (sec >= 150) sec = 0;
+    playing = !playing;
+    clearInterval(mi);
+    if (playing) mi = setInterval(function () { sec++; if (sec >= 150) { sec = 150; playing = false; clearInterval(mi); } updMusic(); }, 1000);
+    updMusic();
+  }
+  updMusic();
+
+  /* ---------- CLICK DELEGATION ---------- */
+  document.addEventListener('click', function (e) {
+    var t = e.target.closest('[data-act]'); if (!t) return;
+    var raw = t.getAttribute('data-act'), k = raw.split(':')[0], v = raw.slice(k.length + 1), n = parseInt(v, 10);
+    try {
+      if (k === 'back') goBack();
+      else if (k === 'home') goHome();
+      else if (k === 'recent') toast('멀티태스킹 창에 앱이 40개쯤 떠 있다. 하나도 종료한 적 없다.');
+      else if (k === 'toast') toast(t.getAttribute('data-t') || '');
+      else if (k === 'page') setPage(n);
+      else if (k === 'open') {
+        if (v === 'weather') { setDetail('Яндекс Погода', '<div class="card"><div style="font-size:42px;font-weight:300">−31°C</div>카예르칸 −31°C, 눈보라 주의보. 일출: 없음.<div class="sm">매일 아침 «일출: 없음»을 보고 혼잣말로 욕을 한다.</div></div><div class="card"><h3>캡처된 화면 (12월 1일)</h3>«Полярная ночь началась. Следующий восход — 13 января»</div>'); openScreen('detail'); }
+        else openScreen(v);
+      }
+      else if (k === 'chat') { renderChat(n); openScreen('chat'); }
+      else if (k === 'app') { var a = APPS[v]; if (a) { setDetail(a[1], '<div class="card" style="text-align:center"><span class="ic2" style="background:' + a[2] + ';margin:0 auto 8px">' + a[0] + '</span><b>' + esc(a[1]) + '</b></div><div class="card">' + a[3] + '</div>'); openScreen('detail'); } }
+      else if (k === 'folder') { var f = FOLD[v]; if (f) { T('folder', f[2] + ' ' + f[0]); B('folder', '<div class="rows">' + f[1].map(function (x) { return row('app:' + x, APPS[x][0], esc(APPS[x][1]), esc(APPS[x][3].replace(/<[^>]+>/g, ' ').slice(0, 40)), '›'); }).join('') + '</div>'); openScreen('folder'); } }
+      else if (k === 'ph') { var p = PH[n]; if (p) { setDetail(p[2], '<div class="big-ph" style="' + grad(p[5]) + '">' + p[1] + '</div><div class="card"><b>' + esc(p[2]) + '</b> ' + (p[4] ? '⭐' : '') + '<div class="sm">' + esc(p[0]) + '</div><br>' + esc(p[3]) + '</div>'); openScreen('detail'); } }
+      else if (k === 'alb') { var al = AL[n]; if (al) { setDetail(al[0], '<div class="card"><h3>' + esc(al[1]) + '</h3>' + esc(al[2]) + '</div>'); openScreen('detail'); } }
+      else if (k === 'vid') { var vd = VID[n]; if (vd) { setDetail(vd[0], '<div class="big-ph" style="background:#2f3a44;color:#fff">▶️</div><div class="card">' + esc(vd[1]) + '</div>'); openScreen('detail'); } }
+      else if (k === 'shot') { var sh = SHOT[n]; if (sh) { setDetail(sh[0], '<div class="card"><h3>스크린샷</h3>' + sh[1] + '</div>'); openScreen('detail'); } }
+      else if (k === 'note') { var nt = NOTES[n]; if (nt) { setDetail(nt[0], '<div class="card" style="background:#fff8d6"><div class="sm">' + esc(nt[1] ? '최종 수정: ' + nt[1] : '') + '</div><br>' + fmt(nt[2]) + '</div>' + (nt[3] ? '<div class="card sm">' + esc(nt[3]) + '</div>' : '')); openScreen('detail'); } }
+      else if (k === 'play') togglePlay();
+      else if (k === 'alm') {
+        var al2 = ALM[n]; if (al2) { al2[2] = al2[2] ? 0 : 1; var r = $('#al' + n); if (r) { r.classList.toggle('off', !al2[2]); r.querySelector('.tg').classList.toggle('on', !!al2[2]); } toast(al2[0] + ' ' + (al2[2] ? '🔔 ON' : '🔕 OFF') + ' — ' + al2[3]); }
+      }
+      else if (k === 'cart') { var c = CART[n]; if (c) toast(c[0] + ' · ' + c[3]); }
+      else if (k === 'day') { toast('12월 ' + n + '일 — ' + (CAL[n] || '일정 없음')); }
+    } catch (err) { try { toast('오류가 났지만 계속 사용할 수 있다.'); } catch (e2) {} }
+  });
+
+  /* swipe on home pages */
+  (function () {
+    var sx = null, pg = $('.pages');
+    if (!pg) return;
+    pg.addEventListener('touchstart', function (e) { sx = e.touches[0].clientX; }, { passive: true });
+    pg.addEventListener('touchend', function (e) {
+      if (sx === null) return;
+      var dx = e.changedTouches[0].clientX - sx; sx = null;
+      if (dx < -50) setPage(1); else if (dx > 50) setPage(0);
+    }, { passive: true });
+  })();
+
+  /* ---------- CLOCK (장식, 오류 격리) ---------- */
+  var t0 = Date.now();
+  function tick() {
+    try {
+      var m = 7 * 60 + 52 + Math.floor((Date.now() - t0) / 60000);
+      var el = $('#clock'); if (el) el.textContent = ('0' + (Math.floor(m / 60) % 24)).slice(-2) + ':' + ('0' + (m % 60)).slice(-2);
+    } catch (e) {}
+  }
+  tick(); setInterval(tick, 5000);
+  render();
+});
+</script>
+</body>
+</html>
